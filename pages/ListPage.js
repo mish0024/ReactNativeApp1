@@ -4,6 +4,7 @@ import {
   FlatList,
   SafeAreaView,
   StyleSheet,
+  Pressable,
   Text,
   View,
 } from "react-native";
@@ -11,9 +12,21 @@ import {
 export default function ListPage({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar style="auto" />
+      <View style={styles.buttonContainer}>
+        <Button
+          title="Home Page"
+          onPress={() => navigation.navigate("Home")}
+        ></Button>
+        <Button
+          title="About Page"
+          onPress={() => navigation.navigate("About")}
+        ></Button>
+        </View>
       <FlatList
         data={data}
         renderItem={({ item }) => (
+          <Pressable onPress={() => alert(`Pressed ${item.title}`)}>
           <Text
             style={{
               padding: 16,
@@ -24,6 +37,7 @@ export default function ListPage({ navigation }) {
           >
             {item.title}
           </Text>
+          </Pressable>
         )}
         keyExtractor={(item) => item.id}
       />
@@ -124,5 +138,16 @@ const styles = StyleSheet.create({
     // alignItems: "center",
     justifyContent: "center",
     // paddingTop: 48,
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginVertical: 10,
+  },
+  item: {
+    padding: 16,
+    fontSize: 20,
+    backgroundColor: "aqua",
+    margin: 2,
   },
 });

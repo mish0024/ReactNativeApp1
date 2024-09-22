@@ -12,11 +12,16 @@ export default function AboutPage({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-        <View>
+        <View style={styles.buttonContainer}>
           <Button
             title="Home Page"
             onPress={() => navigation.navigate("Home")}
           ></Button>
+          <Button
+            title="List Page"
+            onPress={() => navigation.navigate("List")}
+          ></Button>
+        </View>
           <Image
             source={require("../assets/dog.png")}
             style={{
@@ -69,7 +74,6 @@ export default function AboutPage({ navigation }) {
             molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas
             nulla pariatur?
           </Text>
-        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -82,5 +86,10 @@ const styles = StyleSheet.create({
     // alignItems: "center",
     // justifyContent: "center",
     // paddingTop: 48,
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginVertical: 10,
   },
 });
