@@ -1,95 +1,112 @@
-import {
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  ScrollView,
-  Button,
-} from "react-native";
+import React, { useState } from "react";
+import { SafeAreaView, StyleSheet, View, Text, Pressable, FlatList } from "react-native";
 
-export default function AboutPage({ navigation }) {
+export default function InfoPage({ navigation }) {
+  const [selectedId, setSelectedId] = useState(null);
+
+  const toggleExpand = (id) => {
+    setSelectedId(selectedId === id ? null : id);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
-        <View style={styles.buttonContainer}>
-          <Button
-            title="Home Page"
-            onPress={() => navigation.navigate("Home")}
-          ></Button>
-          <Button
-            title="List Page"
-            onPress={() => navigation.navigate("List")}
-          ></Button>
-        </View>
-          <Image
-            source={require("../assets/dog.png")}
-            style={{
-              borderColor: "#eee",
-              borderWidth: 5,
-              width: 300,
-              height: 400,
-            }}
-          />
-          <Text>
-            Lorem Ipsum: Lorem ipsum dolor sit amet, consectetur adipiscing
-            elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-            aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-            laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-            dolor in reprehenderit in voluptate velit esse cillum dolore eu
-            fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-            proident, sunt in culpa qui officia deserunt mollit anim id est
-            laborum. Sed ut perspiciatis unde omnis iste natus error sit
-            voluptatem accusantium doloremque laudantium, totam rem aperiam,
-            eaque ipsa quae ab illo inventore veritatis et quasi architecto
-            beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia
-            voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur
-            magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro
-            quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur,
-            adipisci velit, sed quia non numquam eius modi tempora incidunt ut
-            labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad
-            minima veniam, quis nostrum exercitationem ullam corporis suscipit
-            laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem
-            vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil
-            molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas
-            nulla pariatur? Lorem ipsum dolor sit amet, consectetur adipiscing
-            elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-            aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-            laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-            dolor in reprehenderit in voluptate velit esse cillum dolore eu
-            fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-            proident, sunt in culpa qui officia deserunt mollit anim id est
-            laborum. Sed ut perspiciatis unde omnis iste natus error sit
-            voluptatem accusantium doloremque laudantium, totam rem aperiam,
-            eaque ipsa quae ab illo inventore veritatis et quasi architecto
-            beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia
-            voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur
-            magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro
-            quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur,
-            adipisci velit, sed quia non numquam eius modi tempora incidunt ut
-            labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad
-            minima veniam, quis nostrum exercitationem ullam corporis suscipit
-            laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem
-            vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil
-            molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas
-            nulla pariatur?
-          </Text>
-      </ScrollView>
+      <FlatList
+        data={data}
+        renderItem={({ item }) => (
+          <View style={styles.card}>
+            <Pressable onPress={() => toggleExpand(item.id)} style={styles.titleContainer}>
+              <Text style={styles.title}>{item.title}</Text>
+            </Pressable>
+
+            {selectedId === item.id && (
+              <Text style={styles.description}>{item.description}</Text>
+            )}
+          </View>
+        )}
+        keyExtractor={(item) => item.id}
+      />
+
+      <Pressable style={styles.backButton} onPress={() => navigation.navigate("List")}>
+        <Text style={styles.backButtonText}>Go to List</Text>
+      </Pressable>
+      <Pressable style={styles.backButton} onPress={() => navigation.navigate("Home")}>
+        <Text style={styles.backButtonText}>Back to Home</Text>
+      </Pressable>
     </SafeAreaView>
   );
 }
 
+const data = [
+  {
+    id: "1",
+    title: "What is the Eiffel Tower?",
+    description: "The Eiffel Tower is a wrought-iron lattice tower on the Champ de Mars in Paris, France. It was completed in 1889 as the centerpiece of the 1889 World's Fair and has become a global icon of France and one of the most recognizable structures in the world.",
+  },
+  {
+    id: "2",
+    title: "Where is the Great Wall of China located?",
+    description: "The Great Wall of China is located in northern China, running east to west across the country's historical northern borders. It was built to protect the Chinese states and empires from various nomadic groups of the Eurasian Steppe.",
+  },
+  {
+    id: "3",
+    title: "Why is the Taj Mahal famous?",
+    description: "The Taj Mahal is famous for its stunning Mughal architecture and its significance as a symbol of love. It was commissioned by Emperor Shah Jahan in 1632 to house the tomb of his beloved wife, Mumtaz Mahal, and is now a UNESCO World Heritage Site.",
+  },
+  {
+    id: "4",
+    title: "Who built Machu Picchu?",
+    description: "Machu Picchu was built by the Inca emperor Pachacuti in the 15th century. It is located in the Andes Mountains of Peru and is often referred to as the 'Lost City of the Incas'. Machu Picchu is a UNESCO World Heritage Site and is one of the most visited landmarks in South America.",
+  },
+  {
+    id: "5",
+    title: "What is the significance of the Statue of Liberty?",
+    description: "The Statue of Liberty, located on Liberty Island in New York Harbor, was a gift from France to the United States in 1886. It symbolizes freedom, democracy, and the friendship between the two nations. The statue is a significant symbol of hope and new beginnings for immigrants arriving in America.",
+  },
+];
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    // alignItems: "center",
-    // justifyContent: "center",
-    // paddingTop: 48,
+    backgroundColor: "#f5f5f5",
+    padding: 20,
   },
-  buttonContainer: {
+  card: {
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    marginVertical: 10,
+    padding: 15,
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  titleContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginVertical: 10,
+    alignItems: "center",
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#333",
+  },
+  description: {
+    marginTop: 10,
+    fontSize: 16,
+    color: "#666",
+  },
+  backButton: {
+    backgroundColor: "#4682b4", 
+    paddingVertical: 12,
+    paddingHorizontal: 25,
+    borderRadius: 30,
+    marginTop: 20,
+    alignSelf: "center",
+  },
+  backButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });
